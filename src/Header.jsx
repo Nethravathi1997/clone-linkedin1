@@ -7,17 +7,27 @@ import HeaderOption from './HeaderOption';
 import BusinessCenterIcon from '@mui/icons-material/BusinessCenter';
 import ChatIcon  from '@mui/icons-material/Chat';
 import NotificationsIcon from '@mui/icons-material/Notifications'
+import { useDispatch, useSelector } from 'react-redux';
+import { auth } from './firebase';
+import { logout, selectUser } from './features/userSlice';
 
 
 
 function Header() {
+  const user = useSelector(selectUser)
+const dispatch = useDispatch();
+
+  const logOutApp = () => {
+    dispatch(logout());
+    auth.signOut();
+  }
   return (
     <div className='header'>
     <div className='header_left'>
     <img src="https://cdn-icons-png.flaticon.com/512/174/174857.png" alt="" />
     <div className='header_search'>
       <SearchIcon />
-      <input type="text" />
+      <input type="text" placeholder='Search' />
     </div>
     </div>
     <div className='header_right'>
@@ -26,7 +36,7 @@ function Header() {
         <HeaderOption Icon={BusinessCenterIcon} title='Jobs'/>
         <HeaderOption Icon={ChatIcon} title='Messaging'/>
         <HeaderOption Icon={NotificationsIcon} title='Notifications'/>
-        <HeaderOption avatar= 'https://www.pngitem.com/pimgs/m/514-5149286_profile-logo-hd-png-download.png' />
+        <HeaderOption avatar= {true} title="me" onClick={logOutApp} />
     </div>
     </div>
   )
